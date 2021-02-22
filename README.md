@@ -42,5 +42,53 @@ Swagger lets you make live API calls against a running server instance, and get 
 
 ![screenshot of live API call](images/Screen%20Shot%202021-02-19%20at%2012.21.36%20PM.png)
 
+Sure, you could write some code to test each API call, but if you'd like to reduce your development time, using a live API server like swagger is definitely the way to go.
 
+If you want to see exactly what's being returned as a payload from a given API call, swagger is also your friend:
 
+![Results of a live API call](images/Screen%20Shot%202021-02-22%20at%2010.46.52%20AM.png)
+
+As you can see, you get the complete `curl` command you could use, the returned data, which you can then use to make sure your program can properly handle the returned message, as well as the complete response headers.
+
+## How can you get this?
+
+Again, to repeat, this is currently *not* part of the official Camunda Platform Docker image. It will be at some point, but it's not right now.
+
+That being said, you can still get access to it, and use it.
+
+First, you will need to clone the proper repository which is [here](https://github.com/camunda-community-hub/docker-camunda-bpm-platform/tree/swagger). That is a clone of the official Camunda Platform Docker repository, and a special `swagger` branch.
+
+```
+% git clone https://github.com/camunda-community-hub/docker-camunda-bpm-platform/tree/swagger
+```
+should do it for you.
+
+Now you'll need to build that into a proper docker image. This can take some time as all the components are downloaded.
+
+```
+% cd docker-camunda-bpm-platform
+docker-camunda-bpm-platform % git status
+On branch swagger
+Your branch is up to date with 'camunda-community-hub/swagger'.
+
+nothing to commit, working tree clean
+% (base) davidgs@MacBook-Pro docker-camunda-bpm-platform % docker build . --rm -t camunda-bpm-plaform:swagger
+Successfully built db270d32507f
+Successfully tagged camunda-bpm-platform:swagger
+%  docker-camunda-bpm-platform % docker image list
+REPOSITORY                     TAG       IMAGE ID       CREATED         SIZE
+camunda-bpm-platform           swagger   db270d32507f   5 seconds ago   333MB
+```
+So it's now built. You have the image ready to go. All that's left is to run it!
+
+```
+% docker run -p 8000:8000 db270d32507f
+```
+
+It should take about 30-45 seconds to start everything up, but you can then point your browser to [http://localhost:8000/docs](http://localhost:8000/docs) for the swagger server, or [http://localhost:8000/camunda](http://localhost:8000/camunda) for the Camunda Platform.
+
+You can use Camunda Modeler to deploy and run models by changing the deployment port from `8080` to `80000`
+
+![Camunda Modeler deployment](images/Screen%20Shot%202021-02-22%20at%2011.23.19%20AM.png)
+
+And you're all done!
