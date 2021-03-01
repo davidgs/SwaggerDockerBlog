@@ -6,7 +6,7 @@ Have you ever fired up the Camunda Platform Docker instance and wished you could
 
 ## Coming Soon
 
-To be clear, this integration is coming to the official Camunda Platform Docker container. It's just not ready yet. So this is really more of an interim solution rather than the be-all and end-all solution, but it works, and it makes sending API calls to a live instance of Camunda Platform a *lot* eaiser. So follow along and we'll show you how to run it yourself.
+To be clear, this integration is coming to the official Camunda Platform Docker container with reliease 7.15. It's just not ready yet. So this is really more of an interim solution rather than the be-all and end-all solution, but it works, and it makes sending API calls to a live instance of Camunda Platform a *lot* easier. So follow along and we'll show you how to run it yourself.
 
 ## CORS is your friend, and not your friend
 
@@ -14,7 +14,7 @@ In general, and on the regular internet, Cross Origin Resource Sharing (CORS) ke
 
 When isn't it? When you want to do something like make API calls from one host to another when the 2 hosts don't have an explicit trust agreement. Like between 2 docker containers. Or between your laptop and a docker container.
 
-Yes, you can go in and set a header in the HTTP server such that `Access-Control-Allow-Origin: *` and that will solve the problem (while creating a host of other problems). But when you're delaing with a pre-built docker container that runs a service via tomcat, it's never quite that simple.
+Yes, you can go in and set a header in the HTTP server such that `Access-Control-Allow-Origin: *` and that will solve the problem (while creating a host of other problems). But when you're dealing with a pre-built docker container that runs a service via tomcat, it's never quite that simple.
 
 ## How this works
 
