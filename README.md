@@ -6,29 +6,29 @@ Have you ever fired up the Camunda Platform Docker instance and wished you could
 
 ## Coming Soon
 
-To be clear, this integration is coming to the official Camunda Platform Docker container with reliease 7.15. It's just not ready yet. So this is really more of an interim solution rather than the be-all and end-all solution, but it works, and it makes sending API calls to a live instance of Camunda Platform a *lot* easier. So follow along and we'll show you how to run it yourself.
+To be clear, this integration is coming to the official Camunda Platform Docker container with release 7.15. It's just not ready yet. So this is really more of an interim solution rather than the be-all and end-all solution, but it works, and it makes sending API calls to a live instance of Camunda Platform a *lot* easier. So follow along and we'll show you how to run it yourself.
 
 ## CORS is your friend, and not your friend
 
 In general, and on the regular internet, Cross Origin Resource Sharing (CORS) keeps you safe by not loading resources from random, untrusted sources. This is generally a good thing. Until it isn't.
 
-When isn't it? When you want to do something like make API calls from one host to another when the 2 hosts don't have an explicit trust agreement. Like between 2 docker containers. Or between your laptop and a docker container.
+When isn't it? When you want to do something like make API calls from one host to another when the 2 hosts don't have an explicit trust agreement. Like between 2 Docker containers. Or between your laptop and a Docker container.
 
-Yes, you can go in and set a header in the HTTP server such that `Access-Control-Allow-Origin: *` and that will solve the problem (while creating a host of other problems). But when you're dealing with a pre-built docker container that runs a service via tomcat, it's never quite that simple.
+Yes, you can go in and set a header in the HTTP server such that `Access-Control-Allow-Origin: *` and that will solve the problem (while creating a host of other problems). But when you're dealing with a pre-built Docker container that runs a service via tomcat, it's never quite that simple.
 
 ## How this works
 
-We decided that, given the above CORS issue, the simplest way to tackle the whole thing was to add an nginx proxy server to the existing docker container. That way you can have everything run in one container, and not have to worry about CORS at all.
+We decided that, given the above CORS issue, the simplest way to tackle the whole thing was to add an nginx proxy server to the existing Docker container. That way you can have everything run in one container, and not have to worry about CORS at all.
 
-We made no changes to the underlying Camunda Platform instance to make this work. That instance is still accessible via the docker container's port 8080.
+We made no changes to the underlying Camunda Platform instance to make this work. That instance is still accessible via the Docker container's port 8080.
 
-What We did was add the swagger server on port 8081 within that same docker container.
+What We did was add the swagger server on port 8081 within that same Docker container.
 
-And now you're thinking "but that doesn't solve the CORS issue!" and you're right, it doesn't. If you go to the swagger instance on port 8081 (if you export that port when you start the docker container) you will get the swagger server and see the APIs. But if you try to execute any of those API calls, you will quickly see the impact of CORS. Your API calls will all fail.
+And now you're thinking "but that doesn't solve the CORS issue!" and you're right, it doesn't. If you go to the swagger instance on port 8081 (if you export that port when you start the Docker container) you will get the swagger server and see the APIs. But if you try to execute any of those API calls, you will quickly see the impact of CORS. Your API calls will all fail.
 
 ![Screenshot showing the API server on port 8081](images/Screen%20Shot%202021-02-19%20at%2012.19.33%20PM.png)
 
-Enter nginx. Nginx is a very small, super lightweight web server that is configurable to act as a proxy. I set it up to listen on port 8000 of the docer container, and to proxy calls based on the URL. point your browser at http://docker-container:8000/docs and nginx will forward that call to port 8081, where the swagger server lives. Point your browser to http://docker-container:8000/camunda and you will be redirected to the standard Camunda Platform Task Manager, Cockpit, etc.
+Enter nginx. Nginx is a very small, super lightweight web server that is configurable to act as a proxy. I set it up to listen on port 8000 of the Docker container, and to proxy calls based on the URL. point your browser at http://docker-container:8000/docs and nginx will forward that call to port 8081, where the swagger server lives. Point your browser to http://docker-container:8000/camunda and you will be redirected to the standard Camunda Platform Task Manager, Cockpit, etc.
 
 You will need to change the port in the swagger server to port 8000 from port 8080:
 
@@ -52,7 +52,7 @@ As you can see, you get the complete `curl` command you could use, the returned 
 
 ## How can you get this?
 
-Again, to repeat, this is currently *not* part of the official Camunda Platform Docker image. It will be at some point, but it's not right now.
+Again, to repeat, this is currently *not* part of the official Camunda Platform Docker image. It will be coming with the release of 7.15, but it's not right now.
 
 That being said, you can still get access to it, and use it.
 
@@ -63,7 +63,7 @@ First, you will need to clone the proper repository which is [here](https://gith
 ```
 should do it for you.
 
-Now you'll need to build that into a proper docker image. This can take some time as all the components are downloaded.
+Now you'll need to build that into a proper Docker image. This can take some time as all the components are downloaded.
 
 ```
 % cd docker-camunda-bpm-platform
@@ -75,7 +75,7 @@ nothing to commit, working tree clean
 % (base) davidgs@MacBook-Pro docker-camunda-bpm-platform % docker build . --rm -t camunda-bpm-plaform:swagger
 Successfully built db270d32507f
 Successfully tagged camunda-bpm-platform:swagger
-%  docker-camunda-bpm-platform % docker image list
+%  docker-camunda-bpm-platform % Docker image list
 REPOSITORY                     TAG       IMAGE ID       CREATED         SIZE
 camunda-bpm-platform           swagger   db270d32507f   5 seconds ago   333MB
 ```
