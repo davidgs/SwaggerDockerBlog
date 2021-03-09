@@ -1,6 +1,9 @@
 <img src="https://img.shields.io/badge/Camunda%20DevRel%20Project-Created%20by%20the%20Camunda%20Developer%20Relations%20team-0Ba7B9">
 
+
 # Swagger API access with Camunda Platform
+
+[![Woman looking at her computer with a smile](images/mimi-thian-VEKWzpQu-5M-unsplash-2.jpg "Photo by Mimi Thian on Unsplash")](images/mimi-thian-VEKWzpQu-5M-unsplash.jpg)
 
 Have you ever fired up the Camunda Platform Docker instance and wished you could do live-calls to the API via a [swagger server](https://swagger.io)? We have! And like most things we wish we could do, we go out and make it happen.
 
